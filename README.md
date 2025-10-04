@@ -1,6 +1,6 @@
 # Jito gRPC Client
 
-A Rust client for connecting to Jito's blockengine nodes via gRPC with automatic region selection and retry capabilities.
+A Rust client for connecting to Jito's block engine nodes via gRPC with automatic region selection and retry capabilities.
 
 [Check out the full documentation](https://stevenlusonggao.github.io/blog/posts/jito-grpc-client/)
 
