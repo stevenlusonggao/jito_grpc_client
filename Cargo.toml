@@ -1,6 +1,6 @@
 [package]
 name = "jito-grpc-client"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2024"
 authors = ["Steven Lu Song Gao <steven.lusong@gmail.com>"]
 license = "MIT/Apache-2.0"

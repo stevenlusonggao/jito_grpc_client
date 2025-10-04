@@ -10,7 +10,7 @@ const TXNS_LIMIT: usize = 5;
 impl Bundle {
     /// Creates a Bundle from a vec of transactions, to be sent via GRPC connection. Returns error if too many transactions.
     /// For each transaction, serialize the data and store it in a Packet, which then constitudes apart of a Bundle. Returns error if serialize fails.
-    pub fn create(txns: Vec<VersionedTransaction>) -> JitoClientResult<Self> {
+    pub fn create(txns: &[VersionedTransaction]) -> JitoClientResult<Self> {
         if txns.len() > TXNS_LIMIT {
             return Err(JitoClientError::TooManyTxns);
         }
@@ -22,7 +22,7 @@ impl Bundle {
     }
 
     // For each transaction, serialize the data and store it in a Packet, which then constitudes apart of a Bundle. Returns error if serialize fails
-    fn serialize(txns: Vec<VersionedTransaction>) -> JitoClientResult<Vec<Packet>> {
+    fn serialize(txns: &[VersionedTransaction]) -> JitoClientResult<Vec<Packet>> {
         let mut packets = Vec::with_capacity(txns.len());
         for txn in txns {
             let data = bincode::serialize(&txn)?;

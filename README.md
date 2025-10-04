@@ -23,7 +23,7 @@ async fn main() -> JitoClientResult<()> {
     ];
     
     // Send bundle
-    let uuid = client.send(transactions).await?;
+    let uuid = client.send(&transactions).await?;
     println!("Bundle submitted with UUID: {}", uuid);
     
     Ok(())

@@ -31,19 +31,6 @@ impl NodeRegion {
 
     /// Pings each endpoint by performing a DNS resolution and establishing a TCP connection, and returns the endpoint with the fastest response time, along with the time (ms) it took.
     pub async fn measure_latency() -> JitoClientResult<(Self, Duration)> {
-        /*let am_task = async { NodeRegion::AM.ping() };
-        let db_task = async { NodeRegion::DB.ping() };
-        let fra_task = async { NodeRegion::FRA.ping() };
-        let ln_task = async { NodeRegion::LN.ping() };
-        let ny_task = async { NodeRegion::NY.ping() };
-        let slc_task = async { NodeRegion::SLC.ping() };
-        let sg_task = async { NodeRegion::SG.ping() };
-        let tok_task = async { NodeRegion::TOK.ping() };
-
-        let (am_result, db_result, fra_result, ln_result, ny_result, slc_result, tok_result) =
-            futures::join!(am_task, db_task, fra_task, ln_task, ny_task, slc_task, tok_task);
-
-            let mut results = Vec::with_capacity(7);*/
         let tasks: Vec<_> = Self::ALL
             .iter()
             .map(|region| async move { (*region, region.ping()) })
@@ -69,25 +56,6 @@ impl NodeRegion {
             }
         }
         fastest.ok_or(JitoClientError::AllRegionLatencyMissing)
-
-        /*
-        match ny_result {
-            Ok(dur) => results.push((NodeRegion::NY, dur)),
-            Err(e) => return Err(e),
-        }
-        match dal_result {
-            Ok(dur) => results.push((NodeRegion::DAL, dur)),
-            Err(e) => return Err(e),
-        }
-        match slc_result {
-            Ok(dur) => results.push((NodeRegion::SLC, dur)),
-            Err(e) => return Err(e),
-        }
-        match results.into_iter().min_by_key(|(_, duration)| *duration) {
-            Some(result) => Ok(result),
-            None => Err(JitoClientError::AllRegionLatencyMissing),
-        }
-        */
     }
 
     // Attempts to perform a DNS resolution and establish a TCP connection, and returns the total execution time (ms)

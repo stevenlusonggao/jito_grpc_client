@@ -117,7 +117,7 @@ impl JitoClient {
     /// ```
     pub async fn send(
         &mut self,
-        transactions: Vec<VersionedTransaction>,
+        transactions: &[VersionedTransaction],
     ) -> JitoClientResult<String> {
         let bundle = Bundle::create(transactions)?;
         let request = SendBundleRequest {
@@ -163,7 +163,7 @@ impl JitoClient {
     /// ```
     pub async fn send_with_retry(
         &mut self,
-        transactions: Vec<VersionedTransaction>,
+        transactions: &[VersionedTransaction],
         retry_logic: RetryLogic,
     ) -> JitoClientResult<String> {
         let bundle = Bundle::create(transactions)?;
@@ -297,7 +297,7 @@ mod tests {
         ));
         let transaction = VersionedTransaction::try_new(message, &[signer_keypair]).unwrap();
 
-        match client.send(vec![transaction]).await {
+        match client.send(&[transaction]).await {
             Ok(out) => println!("bundle id: {out}"),
             Err(e) => panic!("Send error: {e}"),
         }
@@ -333,7 +333,7 @@ mod tests {
         let transaction = VersionedTransaction::try_new(message, &[signer_keypair]).unwrap();
 
         match client
-            .send_with_retry(vec![transaction], RetryLogic::new(3))
+            .send_with_retry(&[transaction], RetryLogic::new(3))
             .await
         {
             Ok(out) => println!("bundle id: {out}"),
